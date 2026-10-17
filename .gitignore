@@ -1,0 +1,8 @@
+# Vagrant
+.vagrant/
+
+# Token do Swarm (segredo, nao versionar)
+.worker_token
+
+# Logs
+*.log

@@ -1,0 +1,24 @@
+# Stack de demonstracao: nginx com 4 replicas servindo conteudo de um volume NFS
+# compartilhado. Todas as replicas, em qualquer no, enxergam os mesmos arquivos.
+#
+# Deploy: docker stack deploy -c docker-compose.yml demo
+
+services:
+  web:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - dados:/usr/share/nginx/html:ro
+    deploy:
+      replicas: 4
+      restart_policy:
+        condition: on-failure
+
+volumes:
+  dados:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: "addr=192.168.56.10,rw,nfsvers=4"
+      device: ":/srv/nfs/dados"
